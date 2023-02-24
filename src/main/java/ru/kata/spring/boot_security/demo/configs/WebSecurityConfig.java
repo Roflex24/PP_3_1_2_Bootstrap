@@ -29,9 +29,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // не пускает пользователей туда, куда ему нельзя
                 .authorizeRequests()
                 // прописываются прова доступа пользователяи
-                .antMatchers("/").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/").hasAnyRole("USER", "ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 // генерирует форму логин, пароль

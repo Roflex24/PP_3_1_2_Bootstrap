@@ -15,8 +15,7 @@ public class User implements UserDetails {
     private long id;
     @Column(unique = true)
     private String username;
-    private String firstName;
-    private String lastName;
+    private String lastname;
     private String password;
     private int age;
     private String email;
@@ -31,11 +30,10 @@ public class User implements UserDetails {
 
     }
 
-    public User(long id, String username, String firstName, String lastName, String password, int age, String email, Set<Role> roles) {
+    public User(long id, String username, String lastname, String password, int age, String email, Set<Role> roles) {
         this.id = id;
         this.username = username;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.lastname = lastname;
         this.password = password;
         this.age = age;
         this.email = email;
@@ -59,20 +57,12 @@ public class User implements UserDetails {
         this.username = username;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getLastname() {
+        return lastname;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     @Override

@@ -2,21 +2,24 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Admin main page</title>
+    <title>Admin panel</title>
+    <link rel="shortcut icon" href="/image/logo.png" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 </head>
 <body>
 
 <!-- Шапка -->
 <header class="navbar navbar-dark bg-dark">
-    <div class="text-white float-left">
-        <span class="font-weight-bold" th:text="${user.email}">email</span> with roles:
-        <span th:text="${user.getRolesToString()}">roles</span>
-    </div>
-    <div class="float-right">
-        <form th:action="@{/logout}" method="get">
-            <button type="submit" class="btn btn-link text-secondary">Logout</button>
-        </form>
+    <div class="container-fluid">
+        <div class="text-white float-left">
+            <b class="font-weight-bold" th:text="${user.email}">email</b> with roles:
+            <span th:text="${user.getRolesToString()}">roles</span>
+        </div>
+        <div class="float-right">
+            <form th:action="@{/logout}" method="get">
+                <button type="submit" class="btn btn-link text-secondary">Logout</button>
+            </form>
+        </div>
     </div>
 </header>
 
@@ -45,7 +48,6 @@
                             <thead>
                             <tr>
                                 <th>Id</th>
-                                <th>Username</th>
                                 <th>First name</th>
                                 <th>Last name</th>
                                 <th>Age</th>
@@ -58,15 +60,14 @@
                             <tbody>
                             <tr th:each="user : ${userList}">
                                 <td th:utext="${user.id}">Id</td>
-                                <td th:utext="${user.username}">Username</td>
-                                <td th:utext="${user.firstName}">Firstname</td>
-                                <td th:utext="${user.lastName}">Lastname</td>
+                                <td th:utext="${user.username}">Firstname</td>
+                                <td th:utext="${user.lastname}">Lastname</td>
                                 <td th:utext="${user.age}">age</td>
                                 <td th:utext="${user.email}">Email</td>
                                 <td th:text="${user.getRolesToString()}"></td>
 
                                 <!--edit-->
-                                <td><button type="button" class="btn btn-info" data-toggle="modal" th:data-target="${'#user-update'+user.id}">Edit</button></td>
+                                <td><button type="button" class="btn btn-primary" data-toggle="modal" th:data-target="${'#user-update'+user.id}">Edit</button></td>
                                 <form th:method="PATCH" th:action="@{/admin/{id}(id=${user.id})}" th:object="${user}">
                                     <div class="modal fade" th:id="${'user-update'+ user.id}" tabindex="-1" role="dialog" aria-labelledby="editForm" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
@@ -79,28 +80,25 @@
                                                 </div>
                                                 <div class="modal-body">
                                                     <div class="text-center font-weight-bold m-auto col-md-6">
-                                                        <label for="id-update" class="m-0">ID</label>
+                                                        <label for="id-update" class="m-0"><b>ID</b></label>
                                                         <input type="text" th:value="${user.id}" id="id-update" class="form-control" name="id" readonly><br>
 
-                                                        <label for="username-update" class="m-0">Username</label>
+                                                        <label for="username-update" class="m-0"><b>First name</b></label>
                                                         <input type="text" th:value="${user.username}" id="username-update" class="form-control" name="username"><br>
 
-                                                        <label for="firstname-update" class="m-0">Firstname</label>
-                                                        <input type="text" th:value="${user.firstName}" id="firstname-update" class="form-control" name="firstname"><br>
+                                                        <label for="lastname-update" class="m-0"><b>Last name</b></label>
+                                                        <input type="text" th:value="${user.lastname}" id="lastname-update" class="form-control" name="lastname"><br>
 
-                                                        <label for="lastname-update" class="m-0">Lastname</label>
-                                                        <input type="text" th:value="${user.lastName}" id="lastname-update" class="form-control" name="lastname"><br>
-
-                                                        <label for="age-update" class="m-0">Age</label>
+                                                        <label for="age-update" class="m-0"><b>Age</b></label>
                                                         <input type="number" th:value="${user.age}" min="0" max="120" id="age-update" class="form-control" name="age"><br>
 
-                                                        <label for="email-update" class="m-0">Email</label>
+                                                        <label for="email-update" class="m-0"><b>Email</b></label>
                                                         <input type="text" th:value="${user.email}" id="email-update" class="form-control" name="email"><br>
 
-                                                        <label for="password-update" class="m-0">Password</label>
+                                                        <label for="password-update" class="m-0"><b>Password</b></label>
                                                         <input type="password" id="password-update" class="form-control" name="password"><br>
 
-                                                        <label for="roles-update" class="m-0">Role</label>
+                                                        <label for="roles-update" class="m-0"><b>Role</b></label>
                                                         <select class="form-control" id="roles-update" size="2" multiple name="roles">
                                                             <option th:each="role : ${roles}" th:text="${role.name.replace('ROLE_','')}" th:value="${role.id}" th:selected="${user.getRoles().contains(role)}">role</option>
                                                         </select>
@@ -129,25 +127,22 @@
                                                 </div>
                                                 <div class="modal-body">
                                                     <div class="text-center font-weight-bold m-auto col-md-6">
-                                                        <label for="id-delete" class="m-0">ID</label>
+                                                        <label for="id-delete" class="m-0"><b>ID</b></label>
                                                         <input type="text" th:value="${user.id}" id="id-delete" class="form-control" name="id" readonly><br>
 
-                                                        <label for="username-delete" class="m-0">Username</label>
+                                                        <label for="username-delete" class="m-0"><b>First name</b></label>
                                                         <input type="text" th:value="${user.username}" id="username-delete" class="form-control" name="username" readonly><br>
 
-                                                        <label for="firstname-delete" class="m-0">Firstname</label>
-                                                        <input type="text" th:value="${user.firstName}" id="firstname-delete" class="form-control" name="firstname" readonly><br>
+                                                        <label for="lastname-delete" class="m-0"><b>Last name</b></label>
+                                                        <input type="text" th:value="${user.lastname}" id="lastname-delete" class="form-control" name="lastname" readonly><br>
 
-                                                        <label for="lastname-delete" class="m-0">Lastname</label>
-                                                        <input type="text" th:value="${user.lastName}" id="lastname-delete" class="form-control" name="lastname" readonly><br>
-
-                                                        <label for="age-delete" class="m-0">Age</label>
+                                                        <label for="age-delete" class="m-0"><b>Age</b></label>
                                                         <input type="number" th:value="${user.age}" id="age-delete" class="form-control" name="age" readonly><br>
 
-                                                        <label for="email-delete" class="m-0">Email</label>
+                                                        <label for="email-delete" class="m-0"><b>Email</b></label>
                                                         <input type="text" th:value="${user.email}" id="email-delete" class="form-control" name="email" readonly><br>
 
-                                                        <label for="roles-delete" class="m-0">Role</label>
+                                                        <label for="roles-delete" class="m-0"><b>Role</b></label>
                                                         <select class="form-control" id="roles-delete" size="2" name="roles" readonly>
                                                             <option th:each="role : ${roles}" th:text="${role.name.replace('ROLE_','')}" th:value="${role.id}">role</option>
                                                         </select>
@@ -175,25 +170,22 @@
                         <div class="container-fluid form-group pt-3 pb-0">
                             <div class="row">
                                 <div class="col-4 offset-4 text-center font-weight-bold">
-                                    <label for="username-add" class="m-0">Username</label>
+                                    <label for="username-add" class="m-0"><b>First name</b></label>
                                     <input type="text" th:field="*{username}" id="username-add" required class="form-control" placeholder="username"><br>
 
-                                    <label for="firstname-add" class="m-0">Firstname</label>
-                                    <input type="text" th:field="*{firstName}" id="firstname-add" required class="form-control" placeholder="firstname"><br>
+                                    <label for="lastname-add" class="m-0"><b>Last name</b></label>
+                                    <input type="text" th:field="*{lastname}" id="lastname-add" required class="form-control" placeholder="lastname"><br>
 
-                                    <label for="lastname-add" class="m-0">Lastname</label>
-                                    <input type="text" th:field="*{lastName}" id="lastname-add" required class="form-control" placeholder="lastname"><br>
-
-                                    <label for="age-add" class="m-0">Age</label>
+                                    <label for="age-add" class="m-0"><b>Age</b></label>
                                     <input type="number" th:field="*{age}" min="0" max="120" id="age-add" required class="form-control" placeholder="Age"><br>
 
-                                    <label for="password-add" class="m-0">Password</label>
+                                    <label for="password-add" class="m-0"><b>Password</b></label>
                                     <input type="password" th:field="*{password}" id="password-add" required class="form-control" placeholder="Password"><br>
 
-                                    <label for="email-add" class="m-0">Email</label>
+                                    <label for="email-add" class="m-0"><b>Email</b></label>
                                     <input type="text" th:field="*{email}" id="email-add" required class="form-control" placeholder="email"><br>
 
-                                    <label for="roles-add" class="m-0">Role</label>
+                                    <label for="roles-add" class="m-0"><b>Role</b></label>
                                     <select class="form-control" id="roles-add" size="2" required multiple th:field="*{roles}">
                                         <option th:each="role : ${roles}" th:text="${role.name.replace('ROLE_','')}" th:value="${role.id}">role</option>
                                     </select>

@@ -15,7 +15,7 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
-
+    
     @GetMapping("/user")
     //principal это информация о зашедшем пользователе
     public String showUserPage(Model model, Principal principal) {
